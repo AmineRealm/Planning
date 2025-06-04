@@ -1,0 +1,519 @@
+/* Base styles and reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --green-color: #2ecc71;
+  --yellow-color: #f1c40f;
+  --pink-color: #e84393;
+  --gray-color: #95a5a6;
+  --light-gray: #ecf0f1;
+  --danger-color: #e74c3c;
+  --success-color: #27ae60;
+  --border-radius: 8px;
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.header-left h1 {
+  font-size: 28px;
+  color: var(--secondary-color);
+  margin-bottom: 5px;
+}
+
+.date-range {
+  font-size: 18px;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.header-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav-button,
+.action-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-button {
+  background-color: var(--light-gray);
+  color: var(--secondary-color);
+}
+
+.nav-button:hover {
+  background-color: #dfe6e9;
+}
+
+.action-button {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.action-button:hover {
+  background-color: #2980b9;
+}
+
+/* Planning table styles */
+.planning-container {
+  overflow-x: auto;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.planning {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+.planning th,
+.planning td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.planning th {
+  background-color: var(--secondary-color);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.planning th.day-header {
+  min-width: 200px;
+}
+
+.planning tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Intervention card styles */
+.intervention-card {
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.intervention-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.organization {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.technicians {
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.description {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.group-numbers,
+.city,
+.time-slot {
+  font-size: 12px;
+  color: #555;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.intervention-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.intervention-date {
+  font-size: 11px;
+  color: #777;
+  font-weight: 500;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.card-actions {
+  display: flex;
+  gap: 5px;
+}
+
+/* Uniformisation du style des boutons d'action */
+.btn-edit,
+.btn-delete,
+.btn-duplicate {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: var(--secondary-color);
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-edit:hover,
+.btn-delete:hover,
+.btn-duplicate:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+.btn-edit {
+  color: var(--primary-color);
+}
+
+.btn-delete {
+  color: var(--danger-color);
+}
+
+.btn-duplicate {
+  color: var(--success-color);
+}
+
+/* Intervention type colors */
+.desinsect-desinfect {
+  background-color: rgba(46, 204, 113, 0.2);
+  border-left: 4px solid var(--green-color);
+}
+
+.derat-desouris {
+  background-color: rgba(241, 196, 15, 0.2);
+  border-left: 4px solid var(--yellow-color);
+}
+
+.vo-containers {
+  background-color: rgba(232, 67, 147, 0.2);
+  border-left: 4px solid var(--pink-color);
+}
+
+.ts-te-divers {
+  background-color: rgba(149, 165, 166, 0.2);
+  border-left: 4px solid var(--gray-color);
+}
+
+.vitrerie {
+  background-color: rgba(52, 152, 219, 0.2);
+  border-left: 4px solid var(--primary-color);
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+}
+
+.modal-content {
+  background-color: white;
+  margin: 50px auto;
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.close {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.close:hover {
+  color: #555;
+}
+
+#modal-title {
+  margin-bottom: 20px;
+  color: var(--secondary-color);
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-save,
+.btn-cancel,
+.btn-delete {
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.btn-save {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.btn-save:hover {
+  background-color: #219653;
+}
+
+.btn-cancel {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background-color: #d0d0d0;
+}
+
+.btn-delete {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c0392b;
+}
+
+/* Confirmation modal */
+.confirm-content {
+  max-width: 400px;
+  text-align: center;
+}
+
+.confirm-content h2 {
+  margin-bottom: 15px;
+}
+
+.confirm-content p {
+  margin-bottom: 20px;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Styles pour le modal de duplication avancée */
+.duplication-options {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+  border: 1px solid #e0e0e0;
+}
+
+.duplication-options h3 {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: var(--secondary-color);
+}
+
+.duplication-type {
+  margin-bottom: 15px;
+}
+
+.duplication-type label {
+  margin-right: 15px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.duplication-type input[type="radio"] {
+  width: auto;
+  margin-right: 5px;
+}
+
+.duplication-end {
+  margin-top: 15px;
+}
+
+.week-duplication-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.week-duplication-btn {
+  background-color: var(--success-color);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.week-duplication-btn:hover {
+  background-color: #219653;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-button,
+  .action-button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .modal-content {
+    margin: 20px auto;
+    padding: 15px;
+  }
+}
+
+small {
+  display: block;
+  color: #777;
+  font-size: 12px;
+  margin-top: 3px;
+}

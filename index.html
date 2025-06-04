@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning Hebdomadaire</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>Planning Hebdomadaire</h1>
+                <div class="date-range" id="date-range"></div>
+            </div>
+            <div class="header-controls">
+                <button id="prev-week" class="nav-button"><i class="fas fa-chevron-left"></i> Semaine précédente</button>
+                <button id="current-week" class="nav-button">Semaine actuelle</button>
+                <button id="next-week" class="nav-button">Semaine suivante <i class="fas fa-chevron-right"></i></button>
+                <button id="add-intervention" class="action-button"><i class="fas fa-plus"></i> Ajouter une intervention</button>
+                <button id="duplicate-week" class="action-button"><i class="fas fa-copy"></i> Dupliquer la semaine</button>
+            </div>
+        </header>
+
+        <div class="planning-container">
+            <div class="planning" id="planning-table">
+                <!-- Planning will be generated here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Modal for adding/editing interventions -->
+        <div id="intervention-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modal-title">Ajouter une intervention</h2>
+                <form id="intervention-form">
+                    <input type="hidden" id="intervention-id">
+                    <div class="form-group">
+                        <label for="organization">Organisation:</label>
+                        <input type="text" id="organization" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sector">Secteur:</label>
+                        <input type="text" id="sector" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="intervention-type">Type d'intervention:</label>
+                        <select id="intervention-type" required>
+                            <option value="">Sélectionner un type</option>
+                            <option value="desinsect-desinfect">Désinsectisation et Désinfection</option>
+                            <option value="derat-desouris">Dératisation et Désourisation</option>
+                            <option value="vo-containers">V.O. et Containers</option>
+                            <option value="ts-te-divers">T.S. et T.E. et Divers</option>
+                            <option value="vitrerie">Vitrerie</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="group-numbers">Numéros des groupes:</label>
+                        <input type="text" id="group-numbers" placeholder="Ex: 1224-1239-1243">
+                    </div>
+                    <div class="form-group">
+                        <label for="technicians">Noms des techniciens:</label>
+                        <input type="text" id="technicians" placeholder="Ex: MS/CA">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Ville:</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="day">Jour:</label>
+                            <select id="day" required>
+                                <option value="1">Lundi</option>
+                                <option value="2">Mardi</option>
+                                <option value="3">Mercredi</option>
+                                <option value="4">Jeudi</option>
+                                <option value="5">Vendredi</option>
+                                <option value="6">Samedi</option>
+                                <option value="0">Dimanche</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="time-slot">Créneau horaire:</label>
+                            <select id="time-slot">
+                                <option value="matin">Matin</option>
+                                <option value="aprem">Après-midi</option>
+                                <option value="journee">Journée entière</option>
+                                <option value="custom">Personnalisé</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="custom-time-container" style="display: none;">
+                            <label for="custom-time">Horaire personnalisé:</label>
+                            <input type="text" id="custom-time" placeholder="Ex: 8h-12h">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="intervention-date">Date spécifique:</label>
+                        <input type="date" id="intervention-date">
+                        <small>Si non spécifié, la date sera calculée en fonction du jour sélectionné dans la semaine actuelle.</small>
+                    </div>
+
+                    <!-- Options de duplication avancée -->
+                    <div id="duplication-options" class="duplication-options" style="display: none;">
+                        <h3>Options de duplication</h3>
+                        <div class="duplication-type">
+                            <label>
+                                <input type="radio" name="duplication-type" value="none" checked> 
+                                Pas de répétition
+                            </label>
+                            <label>
+                                <input type="radio" name="duplication-type" value="daily"> 
+                                Quotidienne
+                            </label>
+                            <label>
+                                <input type="radio" name="duplication-type" value="weekly"> 
+                                Hebdomadaire
+                            </label>
+                            <label>
+                                <input type="radio" name="duplication-type" value="monthly"> 
+                                Mensuelle
+                            </label>
+                            <label>
+                                <input type="radio" name="duplication-type" value="yearly"> 
+                                Annuelle
+                            </label>
+                        </div>
+                        <div class="duplication-end">
+                            <div class="form-group">
+                                <label for="duplication-end-date">Date de fin de répétition:</label>
+                                <input type="date" id="duplication-end-date">
+                            </div>
+                            <div class="form-group">
+                                <label for="duplication-occurrences">Ou nombre d'occurrences:</label>
+                                <input type="number" id="duplication-occurrences" min="1" max="100" placeholder="Ex: 10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save">Enregistrer</button>
+                        <button type="button" class="btn-cancel">Annuler</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for duplicating a week -->
+        <div id="duplicate-week-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Dupliquer la semaine</h2>
+                <form id="duplicate-week-form">
+                    <div class="form-group">
+                        <label for="target-week-date">Sélectionnez la semaine cible:</label>
+                        <input type="date" id="target-week-date" required>
+                        <small>La semaine commençant à cette date recevra les interventions dupliquées.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="repeat-count">Nombre de répétitions (optionnel):</label>
+                        <input type="number" id="repeat-count" min="1" max="52" placeholder="Ex: 4">
+                        <small>Répéter la duplication sur plusieurs semaines consécutives.</small>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save">Dupliquer</button>
+                        <button type="button" class="btn-cancel">Annuler</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Confirmation modal for deleting interventions -->
+        <div id="confirm-modal" class="modal">
+            <div class="modal-content confirm-content">
+                <h2>Confirmation</h2>
+                <p>Êtes-vous sûr de vouloir supprimer cette intervention?</p>
+                <div class="confirm-actions">
+                    <button id="confirm-delete" class="btn-delete">Supprimer</button>
+                    <button id="cancel-delete" class="btn-cancel">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
